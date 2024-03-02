@@ -116,3 +116,5 @@ document.addEventListener('keydown',(e)=>{
     }
   }
 });
+window.focus();
+canvas.click();

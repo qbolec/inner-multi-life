@@ -1,7 +1,5 @@
 const ctx = canvas.getContext('2d');
 ctx.lineWidth = 1;
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;  
 
 function circle(c,pen){
   ctx.fillStyle=pen
