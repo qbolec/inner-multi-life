@@ -1,0 +1,111 @@
+// Set line width
+let nodes=[{"x":30,"y":90,"r":15},
+{"x":100,"y":40,"r":15},
+{"x":350,"y":50,"r":15},
+{"x":500,"y":100,"r":15},
+{"x":834,"y":150,"r":15,"color":"darkblue"},
+{"x":100,"y":210,"r":15},
+{"x":410,"y":420,"r":15,"color":"purple"},
+{"x":200,"y":400,"r":15},
+{"x":645,"y":83,"r":15},
+{"x":793,"y":489,"r":15},
+{"x":317,"y":130,"r":15},
+{"x":472,"y":231,"r":15},
+{"x":785,"y":476,"r":15},
+{"x":765,"y":450,"r":15},
+{"x":401,"y":137,"r":15},
+{"x":50,"y":438,"r":15},
+{"x":229,"y":571,"r":15},
+{"x":628,"y":600,"r":15},
+{"x":249,"y":567,"r":15,"color":"darkblue"},
+{"x":548,"y":29,"r":15},
+{"x":899,"y":32,"r":15},
+{"x":1263,"y":133,"r":15},
+{"x":1005,"y":130,"r":15},
+{"x":892,"y":107,"r":15,"color":"darkblue"},
+{"x":894,"y":222,"r":15},
+{"x":1101,"y":235,"r":15},
+{"x":1239,"y":248,"r":15},
+{"x":907,"y":348,"r":15},
+{"x":1241,"y":372,"r":15,"color":"darkblue"},
+{"x":879,"y":426,"r":15},
+{"x":1211,"y":494,"r":15},
+{"x":870,"y":502,"r":15},
+{"x":1194,"y":584,"r":15,"color":"purple"},
+{"x":931,"y":599,"r":15}]
+let edges=[{"from":0,"to":1},
+{"from":1,"to":2},
+{"from":2,"to":3},
+{"from":3,"to":4},
+{"from":5,"to":0},
+{"from":4,"to":6},
+{"from":6,"to":5},
+{"from":6,"to":7},
+{"from":7,"to":5},
+{"from":4,"to":9},
+{"from":9,"to":6},
+{"from":1,"to":10},
+{"from":10,"to":11},
+{"from":11,"to":5},
+{"from":11,"to":4},
+{"from":6,"to":11},
+{"from":5,"to":15},
+{"from":15,"to":16},
+{"from":16,"to":17},
+{"from":17,"to":9},
+{"from":6,"to":16},
+{"from":2,"to":19},
+{"from":19,"to":20},
+{"from":20,"to":21},
+{"from":21,"to":22},
+{"from":22,"to":23},
+{"from":23,"to":24},
+{"from":24,"to":25},
+{"from":25,"to":26},
+{"from":26,"to":27},
+{"from":27,"to":28},
+{"from":28,"to":29},
+{"from":29,"to":30},
+{"from":30,"to":31},
+{"from":31,"to":32},
+{"from":32,"to":33},
+{"from":33,"to":17}]
+
+
+
+nodes.forEach(n=>{
+  n.goal_x=n.x;
+  n.goal_y=n.y;
+  n.goal_r=n.r;
+  n.rate=Math.PI*2/1000;
+  n.phase=Math.random()*Math.PI*2;
+  n.amplitude=Math.random()*10;
+})
+edges.forEach((e)=>{
+  e.from=nodes[e.from];
+  e.to=nodes[e.to];
+});
+edges.forEach(e=>{
+  e.next=edges.filter(edge=>edge.from==e.to);
+  e.previous=edges.filter(edge=>edge.to==e.from);
+});
+let entities=edges.map(e=>
+  [0,1,2,3,4,5].map(z=>({
+    r:5+Math.random()*3,
+    edge:e,
+    phase:Math.random()*2*Math.PI,
+    role:['blood','food','virus','crystal'][z%4],
+    ...atOffsetAlong(distance(e.from,e.to)*z/6,e)
+  }))                        
+).flat();
+const hero={
+  r:1,
+  color:'white',
+  x:0,
+  y:0,
+  phase:0,
+  edge:edges[0],
+  role:'hero',
+  options:[],
+}
+entities.push(hero);
