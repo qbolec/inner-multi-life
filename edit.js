@@ -1,5 +1,9 @@
 canvas.addEventListener('click',(e)=>{
-  const node=nodes.filter(n => distance(e,n)<=n.r)[0];
+  const c = {
+    x: e.x * canvas.width / canvas.clientWidth,
+    y: e.y * canvas.height / canvas.clientHeight,
+  }
+  const node=nodes.filter(n => distance(c,n)<=n.r)[0];
   if(node){
     if(selectedNode){
       if(selectedNode==node){
@@ -24,11 +28,10 @@ canvas.addEventListener('click',(e)=>{
     }
   }else{
     const newNode={
-      x:e.x,
-      y:e.y,
+      ...c,
       r:15,
-      goal_x:e.x,
-      goal_y:e.y,
+      goal_x:c.x,
+      goal_y:c.y,
       goal_r:15,
       rate:Math.PI*2/1000,
       phase:Math.random()*Math.PI*2,
